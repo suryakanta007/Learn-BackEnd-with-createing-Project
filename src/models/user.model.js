@@ -61,7 +61,8 @@ const userSchema = new Schema(
             {
                 _id:this._id,
                 email:this.email,
-                username:this.fullName
+                username:this.username,
+                fullName:this.fullName
             },
             process.env.ACCESS_TOKEN_SECRET ,
             {

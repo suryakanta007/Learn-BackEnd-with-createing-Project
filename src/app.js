@@ -1,20 +1,29 @@
-import { Express, urlencoded } from "express";
+import  express  from "express";
+import { urlencoded } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 
 
-const app = Express();
+const app = express();
 app.use(cors({
     origin:process.env.CORS_ORIGIN
 }))
-app.use(Express.json({
+app.use(express.json({
     limit:"16kb"
 }))
-app.use(Express.urlencoded({
+app.use(express.urlencoded({
     extended:true,
     limit:"16kb"
 }))
 app.use(cookieParser());
-app.use(Express.static("public"));
+app.use(express.static("public"));
+
+// Routers
+import userRouter from "./routes/user.routes.js"
+
+
+// routs Declaration
+app.use("/api/v1/users",userRouter);
+
 
 export {app};

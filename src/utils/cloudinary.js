@@ -20,8 +20,9 @@ const uplodOnCloudinary = async (localFilePath)=>{
             resource_type:"auto"
         })
         //the file has been uploded successfully.
-        console.log(response);
-        console.log("File is Uploded in cloudinary successfully.",response.url);
+        // console.log(response);
+        // console.log("File is Uploded in cloudinary successfully.",response.url);
+        fs.unlinkSync(localFilePath);
         return response;
     } catch (error) {
         fs.unlinkSync(localFilePath)//revome the locally saved tempary file as as the opearion got failed

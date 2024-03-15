@@ -3,12 +3,11 @@ import { ApiError } from "../utils/apierror.js";
 import { User } from "../models/user.model.js";
 import { uplodOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/apiResponse.js";
-const genarateAccessTokenAndRefreshToken = async (userId) => {
+const generateAccessTokenAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId);
-        const accessToken = user.genarateAccessToken();
-        const refreshToken = user.genarateRefreshToken();
-
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
         user.refreshToken = refreshToken;
         await user.save({ validateBeforeSave: false });
         return { accessToken, refreshToken };
@@ -46,7 +45,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const avatarLocalpath = req.files?.avatar[0]?.path;
     // const coverImageLocalpath = req.files?.coverImage[0]?.path;
     let coverImageLocalpath;
-    if (req.files && Array.isArray(req.files.coverImage) && req.coverImage.length > 0) {
+    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
         coverImageLocalpath = req.files.coverImage[0].path
     }
     if (!avatarLocalpath) {
@@ -106,7 +105,7 @@ const loginUser = asyncHandler(async (req, res) => {
         throw new ApiError(401, "Password is incorrect.");
     }
 
-    const { accessToken, refreshToken } = await genarateAccessTokenAndRefreshToken(user._id);
+    const { accessToken, refreshToken } = await generateAccessTokenAndRefreshToken(user._id);
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
